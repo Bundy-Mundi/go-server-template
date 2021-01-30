@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/Bundy-Mundi/chartcrawler/routers/people"
-	"github.com/Bundy-Mundi/chartcrawler/routers/room"
+	"github.com/Bundy-Mundi/server-template/web/routers/people"
+	"github.com/Bundy-Mundi/server-template/web/routers/room"
 )
 
 // NewRouters - Handle all routers from here
-func NewRouters() http.Handler {
+func NewRouters(dir http.Dir) http.Handler {
 
 	mux := http.NewServeMux()
 
@@ -24,7 +24,7 @@ func NewRouters() http.Handler {
 
 	/* Static File Server */
 	/* ABOUT FILE PATH:  https://stackoverflow.com/questions/52141282/http-fileserverhttp-dir-not-working-in-separate-package */
-	fs := http.StripPrefix("/static/", http.FileServer(http.Dir("./routers/public")))
+	fs := http.StripPrefix("/static/", http.FileServer(dir))
 	mux.Handle("/static/", fs)
 
 	return mux

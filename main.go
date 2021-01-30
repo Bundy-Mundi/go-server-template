@@ -1,13 +1,10 @@
 package main
 
 import (
-	"net/http"
-
-	"github.com/Bundy-Mundi/chartcrawler/routers"
+	"github.com/Bundy-Mundi/server-template/web"
 )
 
 func main() {
 
-	mux := routers.NewRouters()
-	http.ListenAndServe(":3000", mux)
+	web.StartServer()
 }
