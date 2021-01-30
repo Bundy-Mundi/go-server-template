@@ -1,4 +1,4 @@
-# Web Scrapping with Go
+# HTTP server template
 
 ## Link
 
