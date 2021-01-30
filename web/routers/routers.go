@@ -4,15 +4,16 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/Bundy-Mundi/server-template/web/routers/api"
 	"github.com/Bundy-Mundi/server-template/web/routers/rooms"
 	"github.com/Bundy-Mundi/server-template/web/routers/users"
-	"github.com/gorilla/mux"
+	g_mux "github.com/gorilla/mux"
 )
 
 // NewRouters - Handle all routers from here
 func NewRouters(dir http.Dir) http.Handler {
 
-	mux := mux.NewRouter()
+	mux := g_mux.NewRouter()
 
 	/* Home */
 	mux.HandleFunc("/", func(res http.ResponseWriter, req *http.Request) {
@@ -29,10 +30,11 @@ func NewRouters(dir http.Dir) http.Handler {
 	s2.HandleFunc("/", users.GetUsers)
 	s2.HandleFunc("/{id:[0-9]+}", users.GetUserByID)
 
+	/* API */
+	s3 := mux.PathPrefix("/api/v1/").Subrouter()
+	api.EnrollRouter(s3)
+
 	/* Static File Server */
-	/* ABOUT FILE PATH:  https://stackoverflow.com/questions/52141282/http-fileserverhttp-dir-not-working-in-separate-package */
-	// fs := http.StripPrefix("/static/", http.FileServer(dir))
-	// mux.Handle("/static/", fs)
 	mux.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(dir))))
 
 	return mux
